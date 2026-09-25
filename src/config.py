@@ -8,6 +8,14 @@ class Config:
         'spotify': {'api_key': 'YOUR_SPOTIFY_API_KEY', 'rate_limit': 300}
     }
     
+    CULTURAL_TOPICS = [
+        'sustainable fashion',
+        'digital art NFTs',
+        'indie music scene',
+        'mindfulness technology',
+        'virtual reality social'
+    ]
+    
     TIME_WINDOWS = {
         'short_term': 7,
         'medium_term': 30,

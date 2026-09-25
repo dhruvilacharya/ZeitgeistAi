@@ -50,7 +50,7 @@ def generate_training_data():
     return historical_trends, actual_outcomes
 
 def main():
-    print("Generating training data for ChronoPredict...")
+    print("Generating training data for Zeitgeist...")
     
     historical_trends, actual_outcomes = generate_training_data()
     

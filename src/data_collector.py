@@ -33,7 +33,7 @@ class DataCollector:
             return praw.Reddit(
                 client_id=config.DATA_SOURCES['reddit']['api_key'],
                 client_secret='YOUR_REDDIT_CLIENT_SECRET',
-                user_agent='ChronoPredict Cultural Analytics'
+                user_agent='Zeitgeist Cultural Analytics'
             )
         except:
             return None

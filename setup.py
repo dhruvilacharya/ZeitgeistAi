@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="chronopredict",
+    name="zeitgeist",
     version="1.0.0",
     description="AI-Powered Cultural Trend Forecasting System",
     author="dhruvilacharya",

@@ -5,8 +5,9 @@ from src.audio_analyzer import AudioAnalyzer
 from src.trend_detector import TrendDetector
 from src.prediction_engine import PredictionEngine
 from src.utils.visualization import viz_tools
+from src.config import config
 
-class ChronoPredict:
+class Zeitgeist:
     def __init__(self):
         self.data_collector = DataCollector()
         self.text_analyzer = TextAnalyzer()
@@ -104,11 +105,11 @@ class ChronoPredict:
         
         report = self.prediction_engine.generate_forecast_report(predictions)
         
-        return predictions, report
+        return predictions, report, trends
     
     def generate_insights_report(self, predictions, report):
         print("\n" + "="*60)
-        print("CHRONOPREDICT CULTURAL FORECAST REPORT")
+        print("ZEITGEIST CULTURAL FORECAST REPORT")
         print("="*60)
         
         if not predictions:
@@ -140,40 +141,63 @@ class ChronoPredict:
             print(f"{pattern['pattern_type']}: {pattern['significance']:.1%} prevalence")
         
         return report
+    
+    def build_trend_timeline(self, topic_analysis, modality_scores):
+        temporal_patterns = topic_analysis['text']['analysis'].get('temporal_patterns', {})
+        
+        timeline = []
+        for date in sorted(temporal_patterns.keys()):
+            day_entries = temporal_patterns[date]
+            if not day_entries:
+                continue
+            mentions = len(day_entries)
+            avg_sentiment = sum(e['sentiment'] for e in day_entries) / mentions
+            avg_virality = sum(e['virality'] for e in day_entries) / mentions
+            timeline.append({
+                'date': date,
+                'mentions': mentions,
+                'sentiment': round(avg_sentiment, 3),
+                'virality': round(avg_virality, 3)
+            })
+        
+        return {
+            'timeline': timeline,
+            'modality_scores': dict(modality_scores)
+        }
 
 def main():
-    chrono_predict = ChronoPredict()
+    zeitgeist = Zeitgeist()
     
-    cultural_topics = [
-        'sustainable fashion',
-        'digital art NFTs',
-        'indie music scene',
-        'mindfulness technology',
-        'virtual reality social'
-    ]
+    cultural_topics = config.CULTURAL_TOPICS
     
-    print("=== ChronoPredict Cultural Trend Forecasting ===")
+    print("=== Zeitgeist Cultural Trend Forecasting ===")
     print("Analyzing current cultural landscape...")
     
-    analysis = chrono_predict.analyze_cultural_landscape(cultural_topics, 'medium_term')
+    analysis = zeitgeist.analyze_cultural_landscape(cultural_topics, 'medium_term')
     
-    predictions, report = chrono_predict.predict_future_trends(analysis, forecast_years=2)
+    predictions, report, trends = zeitgeist.predict_future_trends(analysis, forecast_years=2)
     
-    chrono_predict.generate_insights_report(predictions, report)
+    zeitgeist.generate_insights_report(predictions, report)
+    
+    if not trends:
+        print("\nNo trends detected this run, skipping visualization.")
+        print("Forecast analysis complete!")
+        return
     
     print("Generating visualizations...")
     
-    trend_plot = viz_tools.plot_trend_evolution({
-        'timeline': [
-            {'date': '2024-01', 'mentions': 45, 'sentiment': 0.6, 'virality': 0.7},
-            {'date': '2024-02', 'mentions': 78, 'sentiment': 0.7, 'virality': 0.8},
-            {'date': '2024-03', 'mentions': 120, 'sentiment': 0.8, 'virality': 0.9}
-        ],
-        'modality_scores': {'text': 0.8, 'image': 0.6, 'audio': 0.4, 'social': 0.9}
-    }, "Sustainable Fashion")
+    # Plot the top-ranked trend using the real data computed during analysis.
+    top_trend = trends[0]
+    topic_name = top_trend['name'].split(': ', 1)[-1]
+    
+    trend_data = zeitgeist.build_trend_timeline(
+        analysis[topic_name], top_trend['modality_scores']
+    )
+    
+    trend_plot = viz_tools.plot_trend_evolution(trend_data, topic_name.title())
     
     trend_plot.savefig('trend_evolution.png')
-    print("Trend evolution plot saved as 'trend_evolution.png'")
+    print(f"Trend evolution plot for '{topic_name}' saved as 'trend_evolution.png'")
     
     print("\nForecast analysis complete!")
 
