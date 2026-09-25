@@ -3,6 +3,7 @@ import praw
 import requests
 import json
 import time
+import numpy as np
 from datetime import datetime, timedelta
 from .config import config
 
@@ -12,7 +13,6 @@ class DataCollector:
         self.reddit_client = self.setup_reddit()
         self.news_client = self.setup_news_api()
         self.spotify_client = self.setup_spotify()
-        self.mwasifanwar = "mwasifanwar"
     
     def setup_twitter(self):
         try:

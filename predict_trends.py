@@ -14,7 +14,6 @@ class ChronoPredict:
         self.audio_analyzer = AudioAnalyzer()
         self.trend_detector = TrendDetector()
         self.prediction_engine = PredictionEngine()
-        self.mwasifanwar = "mwasifanwar"
     
     def analyze_cultural_landscape(self, topics, time_window='medium_term'):
         print("Collecting multi-modal cultural data...")
@@ -63,10 +62,40 @@ class ChronoPredict:
         
         return multi_modal_analysis
     
+    def _build_detector_input(self, multi_modal_analysis):
+        detector_input = {'text': {}, 'image': {}, 'audio': {}, 'social': {}}
+        
+        for topic, modalities in multi_modal_analysis.items():
+            text = modalities.get('text', {})
+            detector_input['text'][topic] = {
+                'patterns': text.get('patterns', {}),
+                'significance': text.get('significance', 0.0)
+            }
+            
+            image = modalities.get('image', {})
+            image_entry = dict(image.get('features', {}))
+            image_entry['trend_score'] = image.get('trend_score', 0.0)
+            detector_input['image'][topic] = image_entry
+            
+            audio = modalities.get('audio', {})
+            audio_entry = dict(audio.get('features', {}))
+            audio_entry['innovation_score'] = audio.get('innovation_score', 0.0)
+            detector_input['audio'][topic] = audio_entry
+            
+            social = modalities.get('social', {})
+            combined_social = []
+            for platform_items in social.values():
+                if isinstance(platform_items, list):
+                    combined_social.extend(platform_items)
+            detector_input['social'][topic] = combined_social
+        
+        return detector_input
+    
     def predict_future_trends(self, multi_modal_analysis, forecast_years=2):
         print("Detecting cultural trends...")
         
-        trends = self.trend_detector.detect_cultural_trends(multi_modal_analysis)
+        detector_input = self._build_detector_input(multi_modal_analysis)
+        trends = self.trend_detector.detect_cultural_trends(detector_input)
         
         print(f"Detected {len(trends)} potential trends")
         
@@ -81,6 +110,12 @@ class ChronoPredict:
         print("\n" + "="*60)
         print("CHRONOPREDICT CULTURAL FORECAST REPORT")
         print("="*60)
+        
+        if not predictions:
+            print("\nNo trends met the detection threshold for this run.")
+            print("Try adjusting TREND_THRESHOLDS in src/config.py or re-running "
+                  "(simulated data varies each run).")
+            return report
         
         print(f"\nSUMMARY")
         print(f"Total trends analyzed: {report['summary']['total_trends_analyzed']}")

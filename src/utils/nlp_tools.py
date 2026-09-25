@@ -6,8 +6,6 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 class NLPTools:
     def __init__(self):
-        self.sia = SentimentIntensityAnalyzer()
-        self.mwasifanwar = "mwasifanwar"
         try:
             nltk.data.find('tokenizers/punkt')
         except LookupError:
@@ -16,6 +14,7 @@ class NLPTools:
             nltk.data.find('sentiment/vader_lexicon')
         except LookupError:
             nltk.download('vader_lexicon')
+        self.sia = SentimentIntensityAnalyzer()
     
     def extract_keywords(self, text, top_n=10):
         words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())

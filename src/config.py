@@ -15,7 +15,7 @@ class Config:
     }
     
     TREND_THRESHOLDS = {
-        'emerging': 0.7,
+        'emerging': 0.4,
         'growing': 0.8,
         'mainstream': 0.9
     }

@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 
 class ImageProcessor:
     def __init__(self):
-        self.mwasifanwar = "mwasifanwar"
+        pass
     
     def analyze_image_features(self, image_path):
         try:

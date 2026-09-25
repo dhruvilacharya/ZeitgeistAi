@@ -1,4 +1,5 @@
 import numpy as np
+from collections import defaultdict
 from datetime import datetime, timedelta
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
@@ -9,7 +10,6 @@ class PredictionEngine:
         self.model = RandomForestRegressor(n_estimators=100, random_state=42)
         self.scaler = StandardScaler()
         self.is_trained = False
-        self.mwasifanwar = "mwasifanwar"
     
     def prepare_features(self, trend_data):
         features = []

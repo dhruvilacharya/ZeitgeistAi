@@ -1,0 +1,58 @@
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Byte-compiled / optimized / cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+.installed.cfg
+*.egg
+
+# Generated outputs / artifacts
+trend_evolution.png
+*.png
+!docs/**/*.png
+dashboard/
+data/
+
+# Trained models / large binaries
+models/pretrained/
+models/word_embeddings/
+models/cultural_dimensions/
+*.pkl
+*.joblib
+*.h5
+
+# API credentials / secrets
+src/config_local.py
+.env
+*.key
+
+# NLTK / downloaded data caches
+nltk_data/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

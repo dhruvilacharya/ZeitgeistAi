@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 
 class VisualizationTools:
     def __init__(self):
-        self.mwasifanwar = "mwasifanwar"
         plt.style.use('seaborn-v0_8')
     
     def plot_trend_evolution(self, trend_data, trend_name):

@@ -7,7 +7,6 @@ from .utils.nlp_tools import nlp_tools
 class TrendDetector:
     def __init__(self):
         self.trend_history = defaultdict(list)
-        self.mwasifanwar = "mwasifanwar"
     
     def detect_cultural_trends(self, multi_modal_data):
         trends = []
@@ -28,6 +27,7 @@ class TrendDetector:
         
         for trend in combined_trends:
             trend_confidence = self.calculate_trend_confidence(trend)
+            trend['confidence'] = trend_confidence
             trend_momentum = self.calculate_trend_momentum(trend)
             
             if trend_confidence >= config.TREND_THRESHOLDS['emerging']:

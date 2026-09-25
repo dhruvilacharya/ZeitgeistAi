@@ -4,7 +4,7 @@ import librosa
 
 class AudioAnalyzer:
     def __init__(self):
-        self.mwasifanwar = "mwasifanwar"
+        pass
     
     def analyze_audio_features(self, audio_path):
         try:

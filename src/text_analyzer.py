@@ -6,7 +6,7 @@ from .config import config
 
 class TextAnalyzer:
     def __init__(self):
-        self.mwasifanwar = "mwasifanwar"
+        pass
     
     def analyze_text_corpus(self, text_data):
         analysis_results = {
